@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+	A Pig's Nest Without Feet|注册
+{% endblock %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+	
+{% block nav_home_active %}active{% endblock %}
+
+{% block content %}
+	<div class="container2">
+        <div class="col-sm-12">
+            <ul class="nav navbar-nav navbar-right">
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'login' %}?from={{request.get_full_path}}">
+                        登陆</a>
+                    </li>
+                    <li><a href="{% url 'register' %}?from={{request.get_full_path}}">
+                        注册</a>
+                    </li>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">
+							{% if user.has_nickname %}
+                        		{{ user.username }} ({{user.get_nickname}})
+                        	{% else %}
+                        		{{ user.username }}
+                        	{% endif %}
+                        	<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user_info' %}">个人资料</a></li>
+                            <li><a href="{% url 'change_password' %}">修改密码</a></li>
+                            {% if user.is_staff or user.is_superuser %}
+                                <li><a href="{% url 'admin:index' %}">后台管理</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'logout' %}?from={{request.get_full_path}}">退出</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
+				{% if not user.is_authenticated %}
+					<div class="panel panel-default">
+					  	<div class="panel-heading">
+							<h2 class="panel-title">注册</h2>
+					  	</div>
+					  	<div class="panel-body">
+					    	<form action="" method="POST">
+						        {% csrf_token %}
+						        {% for field in reg_form %}
+						        	<label for="{{field.id_for_label}}">{{field.label}}</label>
+						        	{{field}}
+						        	<p class="text-danger">{{field.errors.as_text}}</p>
+						        {% endfor %}
+						        <span class="text-danger">
+						        	{{login_form.non_field_errors}}
+						        </span>
+						        <div class="clearfix"></div>
+						        <button id="send_code" class="btn btn-primary pull-left">发送验证码</button>
+						        <input type="submit" value="注册" class="btn btn-primary pull-right">
+						    </form>
+					  	</div>
+					</div>
+				{% else %}
+					<span>已登录，跳转到首页……</span>
+					<script type="text/javascript">
+						window.location.href = '/'
+					</script>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script_extends %}
+    <script type="text/javascript">
+        $("#send_code").click(function(){
+            var email = $("#id_email").val();
+            if(email==""){
+                $("#tip").text('* 邮箱不能为空');
+                return false;
+            }
+
+            // 发送验证码
+            $.ajax({
+                url: "{% url 'send_verification_code' %}",
+                type: "GET",
+                data: {
+                    'email': email,
+                    'send_for': 'register_code'
+                },
+                cache: false,
+                success: function(data){
+                    if(data['status']=='ERROR'){
+                        alert(data['status']);    
+                    }                    
+                }
+            });
+
+            // 把按钮变灰
+            $(this).addClass('disabled');
+            $(this).attr('disabled', true);
+            var time = 30;
+            $(this).text(time + 's');
+            var interval = setInterval(() => {
+                if(time <= 0){
+                    clearInterval(interval);
+                    $(this).removeClass('disabled');
+                    $(this).attr('disabled', false);
+                    $(this).text('发送验证码');
+                    return false;
+                }
+
+                time --;
+                $(this).text(time + 's');
+            }, 1000);
+        });
+    </script>
+{% endblock %}

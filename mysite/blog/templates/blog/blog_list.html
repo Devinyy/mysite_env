@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{# 填充标题的block #}
+{% block title %}我的网站{% endblock %}
+{% block nav_blog_active %}active{% endblock %}
+
+{% load staticfiles %}
+{% load comment_tags %}
+
+{% block header_extends %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog.css' %}">
+{% endblock %}
+
+
+{# 填充内容的block #}
+{% block content %}
+    <div class="container2">
+        <div class="col-sm-12">
+            <ul class="nav navbar-nav navbar-right">
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'login' %}?from={{request.get_full_path}}">
+                        登陆</a>
+                    </li>
+                    <li><a href="{% url 'register' %}?from={{request.get_full_path}}">
+                        注册</a>
+                    </li>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">
+                            {% if user.has_nickname %}
+                                {{ user.username }} ({{user.get_nickname}})
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user_info' %}">个人资料</a></li>
+                            <li><a href="{% url 'change_password' %}">修改密码</a></li>
+                            {% if user.is_staff or user.is_superuser %}
+                                <li><a href="{% url 'admin:index' %}">后台管理</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'logout' %}?from={{request.get_full_path}}">退出</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-md-9 col-lg-9">
+                <div class="panel panel-default one">
+                    <div class="panel-heading">
+                        {% block blog_list_title %}<font size=4>博客列表</font><font size="2">（一共有{{ page_of_blogs.paginator.count }}篇博客）</font>{% endblock %}
+                    </div>
+                    <div class="panel-body">
+                        {% for blog in blogs %}
+                            <div class="blog">
+                                <h2><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h2>
+                                <p class="blog-into">
+                                    <h4>
+                                    <span class="glyphicon glyphicon-glyphicon glyphicon-user" aria-hidden="true"></span> 
+                                    {{ blog.author }}&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-tag"></span> 
+                                    <a href="{% url 'blogs_with_type' blog.blog_type.pk %}">{{ blog.blog_type }}</a>&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-glyphicon glyphicon-time" aria-hidden="true"></span> 
+                                    {{ blog.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-glyphicon glyphicon-search" aria-hidden="true"></span> 
+                                    {{blog.get_read_num}}&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-glyphicon glyphicon-edit" aria-hidden="true"></span>  
+                                    {% get_comment_count blog %}&nbsp;&nbsp;
+                                    </h4>
+                                </p>  
+                                <p><font size="3">{{ blog.content|striptags|truncatechars:100 }}</font></p>
+                            </div>
+                        {% empty %}
+                            <div class="blog">
+                                <h4>-- 暂无博客，敬请期待 --</h4>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="paginator">
+                    <ul class="pagination">
+                        {# 上一页 #}
+                        <li>
+                            {% if page_of_blogs.has_previous %}
+                                <a href="?page={{page_of_blogs.previous_page_number}}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <span aria-hidden="true">&laquo;</span>
+                            {% endif %}
+                        </li>
+                        {# 全部页码 #}
+                        {% for page_num in page_range %}
+                            {% if page_num == page_of_blogs.number %}
+                                <li class="active"><span>{{page_num}}</span></li>
+                            {% else %}
+                                {% if page_num == '...' %}
+                                    <li><span>{{'...'}}</span></li>
+                                {% else %}
+                                    <li><a href="?page={{ page_num }}" >{{page_num}}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {# 下一页 #}
+                        <li>
+                            {% if page_of_blogs.has_next %}
+                                <a href="?page={{page_of_blogs.next_page_number}}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <span aria-hidden="true">&raquo;</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <p><font size=2>
+                        共有{{ page_of_blogs.paginator.count }}篇博客，
+                        当前第{{ page_of_blogs.number }}页，
+                        共有{{ page_of_blogs.paginator.num_pages }}页
+                    </p></font>
+                </div>
+
+            </div>
+            <div class="hidden-xs col-sm-4 col-md-3 col-lg-3">
+                <div class="panel panel-default two">
+                  <div class="panel-heading"><font size=4>个人分类</font></div>
+                  <div class="panel-body">
+                    <ul class="blog-types">
+                        {% for blog_type in blog_types %}
+                            <li> <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                                <a href="{% url 'blogs_with_type' blog_type.pk %}">
+                                   <font size='2'>{{ blog_type.type_name }}  ( {{blog_type.blog_count}} 篇)</font>
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li>暂无分类</li>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+                <div class="panel panel-default three">
+                    <div class="panel-heading"><font size=4>日期归档</font></div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for blog_date,blog_count in blog_dates.items %}
+                                <li><font size='2'>
+                                     <span class="glyphicon glyphicon-send" aria-hidden="true"></span><a href="{% url 'blogs_with_date' blog_date.year blog_date.month %}">
+                                        {{ blog_date|date:"Y年m月" }} ( {{blog_count}} 篇)
+                                    </a></font>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

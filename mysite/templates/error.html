@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+	A Pig's Nest Without Feet|错误 
+{% endblock %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+	
+{% block nav_home_active %}active{% endblock %}
+
+{% block content %}
+	<font size=4>{{message}}&nbsp;&nbsp;&nbsp;<a href="{{redirect_to}}">返回</a></font>
+{% endblock %}

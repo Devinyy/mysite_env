@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+	A Pig's Nest Without Feet|Home
+{% endblock %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+	
+{% block nav_home_active %}
+active
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+		body{
+			background-image: url({% static 'image/1.jpg' %});
+			padding-top:40px;
+			background-size: cover;
+			/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+			background-attachment:fixed;
+			/* 背景图垂直、水平均居中 */
+			background-position: center;
+		}
+	</style>
+	<div class="container">
+		<p class="home-content1"><font color=#ff2365 size=10>Welcome To My Nest!</font></p>
+	</div>
+	<div class="container">
+		<div class="row">
+			<p class="home-content2"><font color=#ff2365 size=10>Welcome To My Nest!</font></p>
+		</div>
+	</div>
+{% endblock %}

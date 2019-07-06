@@ -1,0 +1,12 @@
+{% extends 'blog/blog_list.html' %}
+
+
+{# 填充标题的block #}
+{% block title %}{{ blog_type.type_name }}{% endblock %}
+
+{% block nav_blog_active %}active{% endblock %}
+
+{% block blog_list_title %}
+    <font size="4">日期归档：{{ blogs_with_date }}</font><font size="2">(一共有{{ page_of_blogs.paginator.count }}篇博客)</font>
+    <a href="{% url 'blog_list' %}">查看全部博客</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+div.row{
+	margin-top: 20px !important;
+}
+
+
+div.comment-area{
+	margin-top: 0.5em;
+}
+
+h3.comment-area-title{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 0.4em;
+}
