@@ -1,12 +1,12 @@
 *{
 	margin: 0;
-	padding: 2px;
+	padding: 0px;
 	text-decoration: none !important;
 
 }
 
 body{
-	margin-top: 80px !important;
+	margin-top: 55px !important;
 	text-decoration: none;
 }
 
@@ -57,4 +57,17 @@ ul.dropdown-menu li.dropdown-menu-1>a{
 }
 ul.dropdown-menu li.dropdown-menu-2>a{
 	color: #f2dede;
+}
+
+div.navbar.navbar-inverse.navbar-default.navbar-fixed-top{
+	margin-bottom: 0em;
+	height: 80px;
+}
+
+ul.nav.navbar-nav.navbar-right{
+	margin-top: 16px !important;
+}
+
+div.navbar-header{
+	margin-top: 14px !important;
 }
