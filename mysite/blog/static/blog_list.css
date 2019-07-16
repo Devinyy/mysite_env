@@ -1,0 +1,26 @@
+.content {
+    flex: 1;
+    min-width: 1px;
+}
+
+.article-list .item--active {
+    transform: perspective(2500px) rotateX(0);
+}
+
+.nav ul {
+    flex: 1;
+    margin: 0;
+    padding: 0px 0 5%;
+    list-style: none;
+    counter-reset: item;
+}
+
+.nav ul.menu_list li {
+    margin-top: 5px;
+    line-height: 1.4rem;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}

@@ -9,6 +9,42 @@
 
 {% block header_extends %}
     <link rel="stylesheet" type="text/css" href="{% static 'blog.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog_list.css' %}">
+    <!-- CSS部分 -->
+    <style media="screen">
+        li {
+            list-style: none;
+        }
+        .side_open {
+            position: fixed;
+            top: 9%;
+            right: 0;
+            width: 220px;
+            height: 100%;
+            background-color: #000;
+        }
+        .side_btn {
+            position: absolute;
+            top: 20px;
+            left: -30px;
+            width: 30px;
+            height: 140px;
+            background-color: #000;
+        }
+        .side_btn li {
+        width: 30px;
+        height: 140px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        display: none;
+        }
+        .side_btn li:first-child {
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../index.css">
 {% endblock %}
 
 
@@ -17,6 +53,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
+                <!-- 用户登录 -->
                 <ul class="nav navbar-nav navbar-right">
                     {% if not user.is_authenticated %}
                         <li><a href="{% url 'login' %}?from={{request.get_full_path}}">
@@ -47,7 +84,8 @@
                     {% endif %}
                 </ul>
             </div>
-            <div class="col-sm-8 col-md-9 col-lg-9">
+            <!-- 博客列表 -->
+            <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-default one">
                     <div class="panel-heading">
                         {% block blog_list_title %}<font size=4>博客列表</font><font size="2">（一共有{{ page_of_blogs.paginator.count }}篇博客）</font>{% endblock %}
@@ -121,40 +159,99 @@
                         共有{{ page_of_blogs.paginator.num_pages }}页
                     </p></font>
                 </div>
-
             </div>
-            <div class="hidden-xs col-sm-4 col-md-3 col-lg-3">
-                <div class="panel panel-default two">
-                  <div class="panel-heading"><font size=4>个人分类</font></div>
-                  <div class="panel-body">
-                    <ul class="blog-types">
-                        {% for blog_type in blog_types %}
-                            <li> <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                                <a href="{% url 'blogs_with_type' blog_type.pk %}">
-                                   <font size='2'>{{ blog_type.type_name }}  ( {{blog_type.blog_count}} 篇)</font>
-                                </a>
-                            </li>
-                        {% empty %}
-                            <li>暂无分类</li>
-                        {% endfor %}
-                    </ul>
-                  </div>
-                </div>
-                <div class="panel panel-default three">
-                    <div class="panel-heading"><font size=4>日期归档</font></div>
-                    <div class="panel-body">
-                        <ul>
-                            {% for blog_date,blog_count in blog_dates.items %}
-                                <li><font size='2'>
-                                     <span class="glyphicon glyphicon-send" aria-hidden="true"></span><a href="{% url 'blogs_with_date' blog_date.year blog_date.month %}">
-                                        {{ blog_date|date:"Y年m月" }} ( {{blog_count}} 篇)
-                                    </a></font>
-                                </li>
-                            {% endfor %}
-                        </ul>
+            <!-- 博客分类按钮 -->
+                <div class="nav">
+                    <div class="navbar">
+                            <!-- 博客分类按钮 -->
+                                <!-- HTML部分 -->
+                                <div class="side_open" id="side_open">
+                                    <a href="javascript:void(0);" class="side_btn" id="side_btn">
+                                        <ul>
+                                            <li>
+                                                <br><br>&nbsp;
+                                                <span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="color:#ddd"></span>
+                                                <p style="color:#ddd">分类</p>
+                                            </li>
+                                            <li>
+                                                <br><br>&nbsp;
+                                                <span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="color:#ddd"></span>
+                                                <p style="color:#ddd">分类</p>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                    <!-- 博客分类 -->
+                                    <div class="two">
+                                      <div class="heading"><font size=4 color="#ddd">个人分类</font></div>
+                                          <div class="body">
+                                            <ul class="blog-types">
+                                                {% for blog_type in blog_types %}
+                                                    <li> <span class="glyphicon glyphicon-send" aria-hidden="true" style="color:#ddd;"></span>
+                                                        <a href="{% url 'blogs_with_type' blog_type.pk %}">
+                                                           <font size='2'>{{ blog_type.type_name }}  ( {{blog_type.blog_count}} 篇)</font>
+                                                        </a>
+                                                    </li>
+                                                {% empty %}
+                                                    <li>暂无分类</li>
+                                                {% endfor %}
+                                            </ul>
+                                          </div>
+                                    </div>
+                                    <hr>
+                                    <div class="three">
+                                        <div class="heading"><font size=4 color="#ddd">日期归档</font></div>
+                                        <div class="body">
+                                            <ul>
+                                                {% for blog_date,blog_count in blog_dates.items %}
+                                                    <li><font size='2'>
+                                                         <span class="glyphicon glyphicon-send" aria-hidden="true" style="color:#ddd;"></span><a href="{% url 'blogs_with_date' blog_date.year blog_date.month %}">
+                                                            {{ blog_date|date:"Y年m月" }} ( {{blog_count}} 篇)
+                                                        </a></font>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                     </div>
-                </div>
+                </div>           
             </div>
         </div>
     </div>
+
+     <!-- JS部分 -->
+    <script src="{ % static % 'jquery.min.js' }"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var isHiden = true; /*控制切换菜单*/
+            $('#side_btn').click(function(){
+                if(isHiden){
+                    $('#side_open').animate({right:'-=220px'});//菜单块向右移动
+                }else{
+                    $('#side_open').animate({right:'+=220px'}); //菜单块向左移动
+                }
+                isHiden = !isHiden;
+            });
+        // isHiden只是返回部件的隐藏属性，并不能表示部件当前的真实状态。比如A部件有个子部件B，而A处于隐藏状态，子部件B必然也不可见，但子部件B本身的isHiden还是为false。
+            // 信号量
+            var index = 0;
+            // 更改按钮文字の点击事件
+            $('#side_btn').click(function(){
+                //防流氓点击
+                if($('#side_btn ul li').is(":animated")){
+                    return;
+                }
+                // 老文字淡出
+                $('#side_btn ul li').eq(index).fadeOut(0,function(){
+                    // 信号量
+                    index --;
+                    if(index < 0){
+                        index = 1;
+                    }
+                    // 新文字淡入
+                    $('#side_btn ul li').eq(index).fadeIn(0);
+                });
+            });
+        });
+    </script>
 {% endblock %}

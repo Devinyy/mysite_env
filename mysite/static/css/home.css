@@ -63,11 +63,11 @@ body{
 }
 
 ul.nav.navbar-nav.navbar-right{
-	margin-top: 16px !important;
+    padding-top: 12px !important;
 }
 
 div.navbar-header{
-	margin-top: 14px !important;
+    margin-top: 10px !important;
 }
 
 div.w3ls-banner-1{
