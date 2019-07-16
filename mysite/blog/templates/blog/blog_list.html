@@ -10,6 +10,8 @@
 {% block header_extends %}
     <link rel="stylesheet" type="text/css" href="{% static 'blog.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'blog_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/iconfont.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
     <!-- 博客分类隐藏栏CSS部分 -->
     <style media="screen">
         li {
@@ -115,9 +117,11 @@
                                 </h2>
                             </header>
                             <footer class="post-meta">
-                                <img class="avatar" title="88250" alt="88250" src="{% static 'image/headimg.jpg' %}">
-                                {{ blog.author }}&nbsp;&nbsp;
-                                on&nbsp;&nbsp;
+                                <span>
+                                    <img class="avatar" title="88250" alt="88250" src="{% static 'image/headimg.jpg' %}">
+                                    {{ blog.author }}&nbsp;&nbsp;
+                                    on&nbsp;&nbsp;
+                                </span>
                                 <span>
                                     <span class="glyphicon glyphicon-tag"></span> 
                                     <a href="{% url 'blogs_with_type' blog.blog_type.pk %}"><font color="#aaa">{{ blog.blog_type }}</font></a>&nbsp;&nbsp;
@@ -141,12 +145,12 @@
                     {% endfor %}
                 </main>
                 <!-- 分页器 -->
-                <div class="paginator">
-                    <ul class="pagination">
+                <div class="pagination one">
+                    <nav class="pagination">
                         {# 上一页 #}
-                        <li>
+                        <li class="pagination__item">
                             {% if page_of_blogs.has_previous %}
-                                <a href="?page={{page_of_blogs.previous_page_number}}" aria-label="Previous">
+                                <a href="?page={{page_of_blogs.previous_page_number}}" aria-label="Previous" class="pagination__item">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             {% else %}
@@ -156,32 +160,33 @@
                         {# 全部页码 #}
                         {% for page_num in page_range %}
                             {% if page_num == page_of_blogs.number %}
-                                <li class="active"><span>{{page_num}}</span></li>
+                                <li class="active" class="pagination__item"><span>{{page_num}}</span></li>
                             {% else %}
                                 {% if page_num == '...' %}
-                                    <li><span>{{'...'}}</span></li>
+                                    <li class="pagination__item"><span>{{'...'}}</span></li>
                                 {% else %}
-                                    <li><a href="?page={{ page_num }}" >{{page_num}}</a></li>
+                                    <li><a href="?page={{ page_num }}" class="pagination__item">{{page_num}}</a></li>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
                         {# 下一页 #}
-                        <li>
+                        <li class="pagination__item">
                             {% if page_of_blogs.has_next %}
-                                <a href="?page={{page_of_blogs.next_page_number}}" aria-label="Next">
+                                <a href="?page={{page_of_blogs.next_page_number}}" aria-label="Next" class="pagination__item">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             {% else %}
                                 <span aria-hidden="true">&raquo;</span>
                             {% endif %}
                         </li>
-                    </ul>
+                    </nav>
                     <p><font size=2>
-                        共有{{ page_of_blogs.paginator.count }}篇博客，
-                        当前第{{ page_of_blogs.number }}页，
-                        共有{{ page_of_blogs.paginator.num_pages }}页
-                    </p></font>
+                            共有{{ page_of_blogs.paginator.count }}篇博客，
+                            当前第{{ page_of_blogs.number }}页，
+                            共有{{ page_of_blogs.paginator.num_pages }}页
+                        </p></font>
                 </div>
+                    
 
             </div>
             <!-- 博客分类隐藏栏 -->
@@ -306,8 +311,8 @@
                     </div>
         </footer>
 
-     <!-- 博客分类隐藏栏JS部分 -->
-    <script src="{ % static % 'jquery-1.12.4.min.js' }"></script>
+    <!-- 博客分类隐藏栏JS部分 -->
+    <script src="{ % static 'jquery-1.12.4.min.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             var isHiden = true; /*控制切换菜单*/

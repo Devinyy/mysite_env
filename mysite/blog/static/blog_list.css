@@ -20,6 +20,14 @@
     font-size: 120%;
 }
 
+.pagination.one {
+    text-align: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+
+
 .nav ul.menu_list li {
     margin-top: 5px;
     line-height: 1.4rem;
@@ -40,7 +48,6 @@ article.post {
 }
 .avatar {
     border-radius: 100%;
-    float: left;
     height: 24px;
     margin-right: 9px;
     width: 24px;
@@ -84,4 +91,47 @@ footer.yewei {
     padding-top: 20px;
     padding-bottom: 20px;
     font-family: DFPOP1-W9;
+}
+
+
+ul.social-menu {
+    list-style-type: none;
+    margin: 0 -6px 7px 0;
+    overflow: hidden;
+    padding: 0px;
+    text-align: right;
+}
+#menu li{
+    height: 73.4 !important;
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 43px !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center !important;
+}
+
+i {
+    border-top: 5px !important;
+    padding-top: 0px !important;
+    line-height: 39px;
+}
+
+.pagination__item {
+    width: 30px;
+    height: 30px;
+    background: #15171a;
+    border-radius: 50%;
+    display: inline-block;
+    color: #fff;
+    line-height: 30px;
+    font-size: 12px;
+    margin: 0 5px 40px;
+    color: #000;
+}
+
+article.post.fn-wrap{
+    text-align: center!important;
 }
