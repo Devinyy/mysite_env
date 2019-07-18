@@ -163,7 +163,7 @@
                                 <li class="active" class="pagination__item"><span>{{page_num}}</span></li>
                             {% else %}
                                 {% if page_num == '...' %}
-                                    <li class="pagination__item"><span>{{'...'}}</span></li>
+                                    <li ><span class="pagination__item">{{'...'}}</span></li>
                                 {% else %}
                                     <li><a href="?page={{ page_num }}" class="pagination__item">{{page_num}}</a></li>
                                 {% endif %}

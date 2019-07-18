@@ -53,6 +53,14 @@ article.post {
     width: 24px;
 }
 
+a.post-title::begin{
+    color: rgba(10,10,10,1) !important;
+}
+
+a.post-title:hover{
+    color: rgba(255,35,101,1) !important;
+}
+
 img {
     max-width: 100%;
     height: cover;
@@ -129,7 +137,6 @@ i {
     line-height: 30px;
     font-size: 12px;
     margin: 0 5px 40px;
-    color: #000;
 }
 
 article.post.fn-wrap{

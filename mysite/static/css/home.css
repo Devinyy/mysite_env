@@ -92,6 +92,7 @@ div.index_1.container.windowHeight1{
 	top: 450px;
 	width: 650px;
 	transform: translate(-50%,-50%);
+    color: rgba(255,35,101,1);;
 }
 
 div.index_1.container.windowHeight{
@@ -131,6 +132,20 @@ div.index_1.container.windowHeight{
     animation: bounce 4s 2s infinite;
 }
 
+.col-md-12.navbar::before{
+    display: block;
+    margin: 0px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #fff;
+}
+.col-md-12.navbar:hover{
+    display: block;
+    margin: 0px;
+    text-align: center;
+    background-color: #000;
+}
+
 .icon-arrow-left::before {
     content: "﹀";
 }
@@ -147,6 +162,20 @@ div.index_1.container.windowHeight{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.col-xs-12.navbar::before{
+    display: block;
+    margin: 0px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #fff;
+}
+.col-xs-12.navbar:hover{
+    display: block;
+    margin: 0px;
+    text-align: center;
+    background-color: #000;
 }
 
 footer {
@@ -208,19 +237,7 @@ div.modal-content{
     border-image: url(../image/smallicon/myweixin.png) no-repeat 0px 0px;
 }
 
-div.col-md-12.navbar1::before{
-    display: block;
-    margin: 0px;
-    font-size: 20px;
-    text-align: center;
-    background-color: #fff;
-}
-div.col-md-12.navbar1:hover{
-    display: block;
-    margin: 0px;
-    text-align: center;
-    background-color: #000;
-}
+
 
 p.back{
     display: block;

@@ -76,7 +76,10 @@ div.nav.navbar-nav.navbar-right{
     background-size: cover;
 }
 
-
+div.blog-content.panel.panel-default.one{
+  text-align: left;
+  box-shadow: 0 0px 22px 0 rgba(0, 0, 0, 0.1);
+}
 
 div.wrapper{
     text-align: center;
@@ -118,3 +121,4 @@ i {
     padding-top: 0px !important;
     line-height: 39px;
 }
+
